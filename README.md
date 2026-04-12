@@ -28,11 +28,11 @@ apt:Advanced Package Tool
 
 ### 5，抓包baidu.com
 
-4.1 打开wireshark并且打开ens33  
-4.2 不关闭wireshark并且打开终端，输入 **ping -c 4 baidu.com**
-4.3 停止捕获  
-4.4 使用过滤器输入icmp  
-4.5 Info栏交替 **Echo (ping) request** / **Echo (ping) reply** 前者是我给百度发送的请求。点击Echo (ping) request之后，在Internet Portocol Version 4(IPV4)栏可以发现，Src:10.0.0.128,Dst:198.18.0.41，前者是虚拟机的IP，后者是百度的IP，说明是虚拟机向百度发送的请求，打开此栏后，可以在Protocol发现是ICMP(1)协议，与我们的筛选相同。同样打开Internet Control Message Protocol栏，可以找到Type 8 (Echo (ping) request)，与我最开始点击的相同。
+5.1 打开wireshark并且打开ens33  
+5.2 不关闭wireshark并且打开终端，输入 **ping -c 4 baidu.com**  
+5.3 停止捕获  
+5.4 使用过滤器输入icmp  
+5.5 Info栏交替 **Echo (ping) request** / **Echo (ping) reply** 前者是我给百度发送的请求。点击Echo (ping) request之后，在Internet Portocol Version 4(IPV4)栏可以发现，Src:10.0.0.128,Dst:198.18.0.41，前者是虚拟机的IP，后者是百度的IP，说明是虚拟机向百度发送的请求，打开此栏后，可以在Protocol发现是ICMP(1)协议，与我们的筛选相同。同样打开Internet Control Message Protocol栏，可以找到Type 8 (Echo (ping) request)，与我最开始点击的相同。
 
 ### 6，TCP协议
 
@@ -116,22 +116,22 @@ nc Netcat，建立网络连接
 
 ## 二，一些额外了解的知识
 
-### IP地址和MAC地址
+### 1.IP地址和MAC地址
 
 IP地址：网络层使用，连接不同的WiFi会改变，帮助数据包找到网络
 MAC地址：物理层
 在第一次抓包百度时，Ethernet II那一层的Destination的MAC地址，是学校路由器的MAC地址或者VMware虚拟路由器的MAC地址，而不是百度的，至于如何抓包到百度，应该是不断的网络传输  
 
-### 由ping -c 4 baidu.com和curl www.baidu.com的Dst IP不同引发有关IP的知识
+### 2.由ping -c 4 baidu.com和curl www.baidu.com的Dst IP不同引发有关IP的知识
 
 1.由于百度过于庞大，是由无数个服务器组成的，也就是拥有无数个不同的IP地址   
 2.DNS：网络电话本，隔一段时间curl www.baidu.com，DNS都有可能返回不同的IP地址  
 3.利用 **nslookup baidu.com** 该命令，发现百度返回的IP是不同的
 
-### 由curl baidu.com引发的有关重定向的知识
+### 3.由curl baidu.com引发的有关重定向的知识
 
 1.curl没有像谷歌浏览器一样的重定向功能，访问baidu.com时，实际上百度已经“搬家”  
 2.通过 **curl -I baid.com** 查看百度搬家的信息，第一行为：**HTTP/1.1 301 Moved Permanently**，第二行为：**Location: http://www.baidu.com/**。   
 3.通过 **curl -L baidu.com** 进行重定向时自动跟随新地址跳转，从而实现和 **curl www.baidu.com**同样的效果  
 
-### nc和ping的区别，nc（TCP协议）是直接上门，直接建立联系；而ping（ICMP协议）只是探路，测试连通性的工具
+### 4.nc和ping的区别，nc（TCP协议）是直接上门，直接建立联系；而ping（ICMP协议）只是探路，测试连通性的工具
